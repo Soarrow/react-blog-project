@@ -1,25 +1,21 @@
-import logo from './logo.svg';
-import './App.css';
+import Navbar from './Navbar';
+import Home from './Home';
 
-function App() {
+/**
+ * This is the root component - it's the first component that is rendered to the dom and sits at the top of our application
+ * if we make more components we nest it in the root one
+ */
+function App() { 
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Navbar></Navbar>
+      <div className="content">
+        <Home/>
+      </div>
     </div>
   );
 }
 
+// We always export our component function so that we can use it in other files
+// we need to import the app component in files that use the component
 export default App;
