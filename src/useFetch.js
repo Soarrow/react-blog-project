@@ -15,8 +15,12 @@ const useFetch = (url) => {
     // useEffect is a good place to fetch data because it runs the function when the component runs initially ... genearlly the point where we want to go fetch some data
     // we can then use that data intead of the data that we have set above in the useState
     useEffect(() => {
+        // We can associate this with a specific fetch request ... we can then use it to stop the fetch
+        const abortCont = new AbortController();
+
         setTimeout(() => {
-            fetch(url) // returns to us a promise ... then fires a function once the the above has been resolved
+            // associate abort controller with the fetch
+            fetch(url, { singal: abortCont.signal }) // returns to us a promise ... then fires a function once the the above has been resolved
                 .then(res => { // when the fetch function resolves itself we get a response object ... this doesn't contain the data it's just a response object
                     // console.log(res);
                     if (!res.ok) {
@@ -32,10 +36,16 @@ const useFetch = (url) => {
                 })
                 .catch((err) => { // this will catch any kind of network error
                     // console.log(err.message);
-                    setError(err.message);
-                    setIsPending(false);
+                    if (err.name === 'AbortError') {
+                        console.log('fetch aborted');
+                    } else {
+                        setError(err.message);
+                        setIsPending(false);
+                    }
                 })
         }, 1000);
+
+        return () => abortCont.abort();
     }, [url]); // whenever the url changes rerun the function to get the data for that endpoint
 
     return { data, isPending, error };

@@ -43,8 +43,6 @@ const Home = () => {
             {isPending && <div>Loading...</div>}
             {blogs && <BlogList blogs={blogs} title="All Blogs" />}
 
-
-
             {/* <BlogList blogs={blogs.filter((blog) => blog.author === 'mario')} title="Mario's blog Blogs"/> */}
             {/* Putting brackets after the handleClick function will invoke it without the user even clicking it
             here we just want to reference the function  */}
