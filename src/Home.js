@@ -22,28 +22,37 @@ const Home = () => {
     // }
 
     // ACTUAL CODE
-    const [blogs, setBlogs] = useState([
-        { title: 'My new website', body: 'lorem ipsum...', author: 'mario', id: 1 },
-        { title: 'Welcome party!', body: 'lorem ipsum...', author: 'yoshi', id: 2 },
-        { title: 'Web dev top tips', body: 'lorem ipsum...', author: 'mario', id: 3 }
-    ]);
+    const [blogs, setBlogs] = useState(null);
 
-    const handleDelete = (id) => {
-        const newBlogs = blogs.filter((blog) => blog.id !== id);
-        setBlogs(newBlogs);
-    }
+    // const [name, setName] = useState('mario');
 
+    // This function fires for every render ... be careful of changing the state inside use effect
+    // empty dependency array causes useEffect hook to only render once
+    // we can specify which state values will trigger the use effect function to run
+    // useEffect is a good place to fetch data because it runs the function when the component runs initially ... genearlly the point where we want to go fetch some data
+    // we can then use that data intead of the data that we have set above in the useState
     useEffect(() => { 
-        console.log('use effect ran');
-    });
+        fetch('http://localhost:8000/blogs') // returns to us a promise ... then fires a function once the the above has been resolved
+         .then(res => { // when the fetch function resolves itself we get a response object ... this doesn't contain the data it's just a response object
+            return res.json(); // res.json() gets us the data ... this passes the json into a js object for us // this returns another promise as json() is also async
+         })
+         .then((data) => {
+            console.log(data);
+            setBlogs(data);
+         });
+    },[]);
 
 
     return (
         <div className="home">
             {/* ACTUAL CODE */}
-            <BlogList blogs={blogs} title="All Blogs" handleDelete={handleDelete}/>
 
-
+            {/* Conditional templating happening below 
+                logical and evals the left first ... if it's false we never bother with the right hand side of the logical and
+                if left side is true then it goes to the right and evaluates it ... and when evaluating it outputs it to the screen
+                what's on the right only gets outputed if the thing on the left is true*/}
+            {blogs && <BlogList blogs={blogs} title="All Blogs"/>}
+            
 
             {/* <BlogList blogs={blogs.filter((blog) => blog.author === 'mario')} title="Mario's blog Blogs"/> */}
             {/* Putting brackets after the handleClick function will invoke it without the user even clicking it
