@@ -2,6 +2,7 @@ import Navbar from './Navbar';
 import Home from './Home';
 import Create from './Create';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import BlogDetail from './BlogDetail';
 
 /**
  * This is the root component - it's the first component that is rendered to the dom and sits at the top of our application
@@ -20,6 +21,7 @@ function App() {
             {/* we create a route for each page we have using the route component */}
             <Route path="/" element={<Home />}/>
             <Route path="/create" element={<Create/>} />
+            <Route path="/blogs/:id" element={<BlogDetail/>}/>
           </Routes> 
         </div>
       </div>
