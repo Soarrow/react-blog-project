@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const Create = () => {
 
@@ -8,13 +9,16 @@ const Create = () => {
     const [author, setAuthor] = useState('mario');
     const [isPending, setIsPending] = useState(false);
 
+    // invoke the useNavigate hook
+    const history = useNavigate(); //back foward redirect the user
+
     // React to the submit event
     const handleSubmit = (e) => {
         // need to prevent the default action (stops page from refreshing)
         e.preventDefault();
 
         // create a blog object
-        const blog = {title, body, author};
+        const blog = { title, body, author };
 
         setIsPending(true);
 
@@ -22,11 +26,14 @@ const Create = () => {
         // second arg is where we tack on the data and also define the type of request we're making
         fetch('http://localhost:8000/blogs', {
             method: 'POST',
-            headers: {"Content-Type": "application/json"}, //set the content type that is being sent with this request ... we're sending json data
+            headers: { "Content-Type": "application/json" }, //set the content type that is being sent with this request ... we're sending json data
             body: JSON.stringify(blog) // the data that we're sending with this request ... in this case the blog
         }).then(() => {
             console.log('new blog added');
             setIsPending(false);
+            // go back one through history
+            // history.go(-1) //use pos/neg integers to move forwards and backwards through history of pages visited or ... we can redirect
+            history('/'); // go to route for the home page
         })
     }
 
