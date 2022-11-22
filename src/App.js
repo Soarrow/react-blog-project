@@ -3,6 +3,7 @@ import Home from './Home';
 import Create from './Create';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import BlogDetail from './BlogDetail';
+import NotFound from './NotFound';
 
 /**
  * This is the root component - it's the first component that is rendered to the dom and sits at the top of our application
@@ -22,6 +23,7 @@ function App() {
             <Route path="/" element={<Home />}/>
             <Route path="/create" element={<Create/>} />
             <Route path="/blogs/:id" element={<BlogDetail/>}/>
+            <Route path="*" element={<NotFound/>}/>  {/* Asterix just means to catch any other route ... it's at the bottom otherwise it'll match any route that comes in */}
           </Routes> 
         </div>
       </div>
